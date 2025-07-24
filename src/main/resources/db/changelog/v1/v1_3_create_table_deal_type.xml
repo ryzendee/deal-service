@@ -1,0 +1,38 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="v1-3" author="Dmitry Ryazantsev">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="deal_type"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="deal_type">
+
+            <column name="id" type="varchar(30)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="text">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="is_active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+        <loadData tableName="deal_type" file="classpath:/db/data/deal_type.csv" separator=";">
+            <column name="id" type="string"/>
+            <column name="name" type="string"/>
+        </loadData>
+
+    </changeSet>
+
+</databaseChangeLog>

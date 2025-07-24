@@ -1,0 +1,43 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="v1-7" author="Dmitry Ryazantsev">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="contractor_role"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="contractor_role">
+
+            <column name="id" type="varchar(30)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="text">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="category" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="is_active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+        <loadData tableName="contractor_role" file="classpath:/db/data/contractor_role.csv" separator=";">
+            <column name="id" type="string"/>
+            <column name="name" type="string"/>
+            <column name="category" type="string"/>
+        </loadData>
+
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,51 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="v1-8" author="Dmitry Ryazantsev">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="contractor_to_role"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="contractor_to_role">
+
+            <column name="contractor_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="role_id" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="is_active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+        <addPrimaryKey tableName="contractor_to_role"
+                       columnNames="contractor_id, role_id"
+                       constraintName="pk_contractor_to_role"/>
+
+        <addForeignKeyConstraint
+                baseTableName="contractor_to_role"
+                baseColumnNames="contractor_id"
+                referencedTableName="deal_contractor"
+                referencedColumnNames="id"
+                constraintName="fk_ctr_to_role_contractor"/>
+
+        <addForeignKeyConstraint
+                baseTableName="contractor_to_role"
+                baseColumnNames="role_id"
+                referencedTableName="contractor_role"
+                referencedColumnNames="id"
+                constraintName="fk_ctr_to_role_role"/>
+
+    </changeSet>
+
+</databaseChangeLog>
