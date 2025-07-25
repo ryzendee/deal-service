@@ -28,7 +28,7 @@ public class DealContractorToRoleServiceImpl implements DealContractorToRoleServ
     @Transactional
     @Override
     public void addRoleToContractor(DealContractorRoleAddRequest request) {
-        DealContractor contractor = dealContractorRepository.findById(request.dealContractorId())
+        DealContractor contractor = dealContractorRepository.findById(request.contractorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Contractor with given id does not exists"));
 
         ContractorRole role = contractorRoleRepository.findById(request.roleId())
@@ -44,7 +44,7 @@ public class DealContractorToRoleServiceImpl implements DealContractorToRoleServ
     @Transactional
     @Override
     public void deleteRole(DealContractorRoleRemoveRequest request) {
-        ContractorToRoleId id = buildId(request.dealContractorId(), request.roleId());
+        ContractorToRoleId id = buildId(request.contractorId(), request.roleId());
         ContractorToRoleRelation contractorToRoleRelation = contractorToRoleRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Role with given parameters not found"));
         contractorToRoleRelation.setActive(false);
