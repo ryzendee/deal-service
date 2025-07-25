@@ -30,6 +30,7 @@ public class DealContractorServiceImpl implements DealContractorService {
 
         if (request.id() != null) {
             contractor = findById(request.id());
+            dealContractorAppMapper.updateFromRequest(request, contractor);
         } else {
             contractor = dealContractorAppMapper.toModel(request);
         }
