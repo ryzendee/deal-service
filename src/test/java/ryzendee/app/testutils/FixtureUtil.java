@@ -57,7 +57,6 @@ public class FixtureUtil {
 
     public static DealSaveRequest.DealSaveRequestBuilder dealSaveRequestBuilderFixture() {
         return DealSaveRequest.builder()
-                .id(UUID.randomUUID())
                 .description("Default description")
                 .agreementNumber("AG-123456")
                 .agreementDate(LocalDate.of(2023, 1, 1))
@@ -85,7 +84,6 @@ public class FixtureUtil {
 
     public static ContractorSaveRequest.ContractorSaveRequestBuilder contractorSaveRequestBuilderFixture() {
         return ContractorSaveRequest.builder()
-                .id(randomUUID())
                 .contractorId("contractor")
                 .inn("inn")
                 .dealId(randomUUID())

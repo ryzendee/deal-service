@@ -1,5 +1,6 @@
 package ryzendee.app.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 
 /**
@@ -8,8 +9,15 @@ import java.math.BigDecimal;
  *
  * @author Dmitry Ryazantsev
  */
-public record DealSumDetails(BigDecimal value, String currency) {
+@Schema(description = "Детальная информация о сумме сделки")
+public record DealSumDetails(
 
+        @Schema(description = "Значение суммы", example = "1000.00")
+        BigDecimal value,
+
+        @Schema(description = "Валюта суммы", example = "USD")
+        String currency
+) {
     /**
      * Возвращает строковое представление значения суммы в plain формате.
      *
