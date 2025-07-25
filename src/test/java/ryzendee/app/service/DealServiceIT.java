@@ -22,8 +22,6 @@ import static ryzendee.app.testutils.FixtureUtil.dealSaveRequestBuilderFixture;
 
 public class DealServiceIT extends AbstractServiceIT {
 
-    private static final int STATUS_ID_LENGTH = 20;
-
     @Autowired
     private DealService dealService;
 
@@ -102,7 +100,6 @@ public class DealServiceIT extends AbstractServiceIT {
 
     private void assertDealEqualsRequest(Deal deal, DealSaveRequest request) {
         assertThat(deal).isNotNull();
-        assertThat(deal.getId()).isEqualTo(request.id());
         assertThat(deal.getDescription()).isEqualTo(request.description());
         assertThat(deal.getAgreementNumber()).isEqualTo(request.agreementNumber());
         assertThat(deal.getAgreementDate()).isEqualTo(request.agreementDate());

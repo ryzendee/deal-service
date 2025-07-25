@@ -35,7 +35,7 @@ public class DealContractorToRoleServiceIT extends AbstractServiceIT {
     @Test
     void addRoleToContractor_validRequest_shouldSaveRelation() {
         DealContractorRoleAddRequest request = DealContractorRoleAddRequest.builder()
-                .dealContractorId(contractor.getId())
+                .contractorId(contractor.getId())
                 .roleId(role.getId())
                 .build();
 
@@ -51,7 +51,7 @@ public class DealContractorToRoleServiceIT extends AbstractServiceIT {
     @Test
     void addRoleToContractor_invalidContractor_shouldThrow() {
         DealContractorRoleAddRequest request = DealContractorRoleAddRequest.builder()
-                .dealContractorId(randomUUID())
+                .contractorId(randomUUID())
                 .roleId(role.getId())
                 .build();
 
@@ -62,7 +62,7 @@ public class DealContractorToRoleServiceIT extends AbstractServiceIT {
     @Test
     void addRoleToContractor_invalidRole_shouldThrow() {
         DealContractorRoleAddRequest request = DealContractorRoleAddRequest.builder()
-                .dealContractorId(contractor.getId())
+                .contractorId(contractor.getId())
                 .roleId("dummy")
                 .build();
 
@@ -74,7 +74,7 @@ public class DealContractorToRoleServiceIT extends AbstractServiceIT {
     void deleteRole_existingRelation_shouldDeactivate() {
         ContractorToRoleRelation relation = saveRelation(contractor, role);
         DealContractorRoleRemoveRequest request = DealContractorRoleRemoveRequest.builder()
-                .dealContractorId(contractor.getId())
+                .contractorId(contractor.getId())
                 .roleId(role.getId())
                 .build();
 
@@ -88,7 +88,7 @@ public class DealContractorToRoleServiceIT extends AbstractServiceIT {
     @Test
     void deleteRole_nonExistingRelation_shouldThrow() {
         DealContractorRoleRemoveRequest request = DealContractorRoleRemoveRequest.builder()
-                .dealContractorId(contractor.getId())
+                .contractorId(contractor.getId())
                 .roleId("dummy")
                 .build();
 

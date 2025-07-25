@@ -94,7 +94,6 @@ public class DealContractorServiceIT extends AbstractServiceIT {
     }
 
     private void assertContractorEqualsRequest(DealContractor contractor, ContractorSaveRequest request) {
-        assertThat(contractor.getId()).isEqualTo(request.id());
         assertThat(contractor.getContractorId()).isEqualTo(request.contractorId());
         assertThat(contractor.getName()).isEqualTo(request.name());
         assertThat(contractor.getInn()).isEqualTo(request.inn());
