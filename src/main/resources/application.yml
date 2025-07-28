@@ -15,3 +15,8 @@ spring:
     show-sql: true
   liquibase:
     enabled: true
+
+jwt:
+  secret: qO8zR9Avpm1FLzXzo1kS9OytZ+QjzUpgGzkhEwo6hH4=
+  issuer: fintech-application
+  expiration: 3600000 # 1 час

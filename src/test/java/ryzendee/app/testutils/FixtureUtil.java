@@ -1,9 +1,13 @@
 package ryzendee.app.testutils;
 
 import org.springframework.lang.Contract;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import ryzendee.app.dto.*;
 import ryzendee.app.models.DealContractor;
 import ryzendee.app.util.exporter.ExportResult;
+import ryzendee.starter.jwt.auth.JwtAuthenticationToken;
+import ryzendee.starter.jwt.decoder.AuthRole;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -89,5 +93,9 @@ public class FixtureUtil {
                 .dealId(randomUUID())
                 .main(true)
                 .name("name");
+    }
+
+    public static Authentication authenticationFixture(AuthRole role) {
+        return new JwtAuthenticationToken("user", "jwt-token", List.of(new SimpleGrantedAuthority("ROLE_" + role.name())));
     }
 }
