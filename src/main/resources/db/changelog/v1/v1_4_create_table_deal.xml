@@ -1,0 +1,64 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="v1-4" author="Dmitry Ryazantsev">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="deal"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="deal">
+
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="description" type="text"/>
+            <column name="agreement_number" type="text"/>
+            <column name="agreement_date" type="date"/>
+            <column name="agreement_start_date" type="timestamp"/>
+            <column name="availability_date" type="date"/>
+
+            <column name="type_id" type="varchar(30)"/>
+            <column name="status_id" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="is_active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="close_date" type="timestamp"/>
+
+            <column name="create_date" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="modify_date" type="timestamp"/>
+            <column name="create_user_id" type="text"/>
+            <column name="modify_user_id" type="text"/>
+
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="deal"
+                baseColumnNames="type_id"
+                referencedTableName="deal_type"
+                referencedColumnNames="id"
+                constraintName="fk_deal_type"/>
+
+        <addForeignKeyConstraint
+                baseTableName="deal"
+                baseColumnNames="status_id"
+                referencedTableName="deal_status"
+                referencedColumnNames="id"
+                constraintName="fk_deal_status"/>
+
+    </changeSet>
+
+</databaseChangeLog>

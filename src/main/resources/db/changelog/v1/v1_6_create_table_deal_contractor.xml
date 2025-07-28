@@ -1,0 +1,68 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="v1-6" author="Dmitry Ryazantsev">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="deal_contractor"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="deal_contractor">
+
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="deal_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="contractor_id" type="varchar(12)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="name" type="text">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="inn" type="text"/>
+
+            <column name="main" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="is_active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="create_date" type="timestamp" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="modify_date" type="timestamp"/>
+            <column name="create_user_id" type="text"/>
+            <column name="modify_user_id" type="text"/>
+
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="deal_contractor"
+                baseColumnNames="deal_id"
+                referencedTableName="deal"
+                referencedColumnNames="id"
+                constraintName="fk_deal_contractor_deal"/>
+
+        <sql>
+            CREATE UNIQUE INDEX uq_deal_contractor_main
+                ON deal_contractor(deal_id)
+                WHERE main = true;
+        </sql>
+
+    </changeSet>
+
+</databaseChangeLog>

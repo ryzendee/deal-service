@@ -19,6 +19,7 @@
         <springdoc-openapi.version>2.6.0</springdoc-openapi.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <rest-assured.version>5.5.1</rest-assured.version>
+        <apache-poi.version>5.4.1</apache-poi.version>
     </properties>
     <dependencies>
         <dependency>
@@ -98,6 +99,11 @@
             <artifactId>spring-mock-mvc</artifactId>
             <version>${rest-assured.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${apache-poi.version}</version>
         </dependency>
     </dependencies>
 
