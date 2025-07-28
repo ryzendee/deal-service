@@ -1,10 +1,10 @@
-package ryzendee.app.rest;
+package ryzendee.app.rest.impl.base;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import ryzendee.app.dto.ContractorDetails;
 import ryzendee.app.dto.ContractorSaveRequest;
-import ryzendee.app.rest.api.DealContractorApi;
+import ryzendee.app.rest.api.base.DealContractorApi;
 import ryzendee.app.service.DealContractorService;
 
 import java.util.UUID;

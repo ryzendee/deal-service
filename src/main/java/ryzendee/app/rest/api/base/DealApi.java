@@ -1,4 +1,4 @@
-package ryzendee.app.rest.api;
+package ryzendee.app.rest.api.base;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
@@ -53,7 +53,10 @@ public interface DealApi {
 
     @Operation(
             summary = "Поиск сделок",
-            description = "Постраничный поиск активных сделок с фильтрацией и сортировкой по различным полям"
+            description = "Постраничный поиск активных сделок с фильтрацией и сортировкой по различным полям",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Возвращает список сделок")
+            }
     )
     @PostMapping("/search")
     Page<DealDetails> searchDeals(@RequestBody DealSearchFilter filter);

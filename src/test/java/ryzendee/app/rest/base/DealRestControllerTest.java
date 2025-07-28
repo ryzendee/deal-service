@@ -1,4 +1,4 @@
-package ryzendee.app.rest;
+package ryzendee.app.rest.base;
 
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
@@ -6,24 +6,22 @@ import io.restassured.module.mockmvc.specification.MockMvcRequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ryzendee.app.dto.*;
 import ryzendee.app.exception.ResourceNotFoundException;
-import ryzendee.app.rest.DealRestController;
+import ryzendee.app.rest.impl.base.DealRestController;
 import ryzendee.app.service.DealService;
-import ryzendee.app.service.impl.DealServiceImpl;
 
-import java.util.Collections;
 import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 import static ryzendee.app.testutils.FixtureUtil.*;
 
+@AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(DealRestController.class)
 public class DealRestControllerTest {
 

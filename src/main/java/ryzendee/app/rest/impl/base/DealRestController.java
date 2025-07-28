@@ -1,4 +1,4 @@
-package ryzendee.app.rest;
+package ryzendee.app.rest.impl.base;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -10,7 +10,7 @@ import ryzendee.app.dto.DealDetails;
 import ryzendee.app.dto.DealSaveRequest;
 import ryzendee.app.dto.DealSearchFilter;
 import ryzendee.app.dto.DealStatusChangeRequest;
-import ryzendee.app.rest.api.DealApi;
+import ryzendee.app.rest.api.base.DealApi;
 import ryzendee.app.service.DealService;
 import ryzendee.app.util.exporter.ExportResult;
 
