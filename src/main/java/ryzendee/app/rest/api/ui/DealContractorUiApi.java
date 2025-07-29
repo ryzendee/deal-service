@@ -1,4 +1,4 @@
-package ryzendee.app.rest.api;
+package ryzendee.app.rest.api.ui;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,16 +11,17 @@ import ryzendee.app.dto.ContractorSaveRequest;
 
 import java.util.UUID;
 
-@RequestMapping("/deal-contractor")
-@Tag(name = "API контрагентов сделки", description = "Операции с контрагентами, привязанными к сделке")
-public interface DealContractorApi {
+@RequestMapping("/ui/deal-contractor")
+@Tag(name = "UI API контрагентов сделки", description = "Операции с контрагентами, привязанными к сделке")
+public interface DealContractorUiApi {
 
     @Operation(
             summary = "Сохранить или обновить контрагента сделки",
             description = "Создает нового или обновляет существующего контрагента в рамках сделки",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Контрагент сделки успешно сохранён"),
-                    @ApiResponse(responseCode = "400", description = "Ошибка валидации данных")
+                    @ApiResponse(responseCode = "400", description = "Ошибка валидации данных"),
+                    @ApiResponse(responseCode = "403", description = "Доступ запрещён")
             }
     )
     @PutMapping("/save")
@@ -31,7 +32,8 @@ public interface DealContractorApi {
             description = "Логически удаляет контрагента из сделки (is_active = false)",
             responses = {
                     @ApiResponse(responseCode = "204", description = "Контрагент сделки удалён"),
-                    @ApiResponse(responseCode = "404", description = "Контрагент сделки не найден")
+                    @ApiResponse(responseCode = "404", description = "Контрагент сделки не найден"),
+                    @ApiResponse(responseCode = "403", description = "Доступ запрещён")
             }
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
