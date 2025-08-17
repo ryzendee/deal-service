@@ -28,14 +28,14 @@ public class ContractorUpdateEventInboxProcessor implements InboxProcessor {
         DealContractor contractor = dealContractorRepository.findById(UUID.fromString(event.getContractorId()))
                 .orElseThrow(() -> new ResourceNotFoundException("Deal contractor with given id does not exists"));
 
-        if (shouldUpdate(contractor, event)) {
+        if (isEventNewerThanContractor(contractor, event)) {
             contractor.setInn(event.getInn());
             contractor.setName(event.getName());
             dealContractorRepository.save(contractor);
         }
     }
 
-    private boolean shouldUpdate(DealContractor contractor, ContractorUpdateEvent event) {
+    private boolean isEventNewerThanContractor(DealContractor contractor, ContractorUpdateEvent event) {
         return contractor.getModifyDate() == null || contractor.getModifyDate().isBefore(event.getCreateDate());
     }
 
