@@ -3,6 +3,7 @@ package ryzendee.app.testutils;
 import org.springframework.lang.Contract;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import ryzendee.app.common.dto.ContractorUpdateEvent;
 import ryzendee.app.dto.*;
 import ryzendee.app.models.DealContractor;
 import ryzendee.app.util.exporter.ExportResult;
@@ -15,10 +16,20 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import static java.time.LocalDateTime.now;
 import static java.util.Collections.emptyList;
 import static java.util.UUID.randomUUID;
 
 public class FixtureUtil {
+
+    public static ContractorUpdateEvent contractorUpdateEventFixture() {
+        return new ContractorUpdateEvent(
+                randomUUID().toString(),
+                "updatedInn",
+                "updatedName",
+                now()
+        );
+    }
 
     public static ExportResult exportResultFixture() {
         String str = "fixture.excel";

@@ -28,6 +28,8 @@
         <rest-assured.version>5.5.1</rest-assured.version>
         <apache-poi.version>5.4.1</apache-poi.version>
         <spring-security-jwt-starter.version>0.0.1-SNAPSHOT</spring-security-jwt-starter.version>
+        <common.version>1.0-SNAPSHOT</common.version>
+        <shedlock-spring.version>6.9.2</shedlock-spring.version>
     </properties>
     <dependencies>
         <dependency>
@@ -123,6 +125,36 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>ryzendee</groupId>
+            <artifactId>common</artifactId>
+            <version>${common.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>rabbitmq</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.javacrumbs.shedlock</groupId>
+            <artifactId>shedlock-spring</artifactId>
+            <version>${shedlock-spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.javacrumbs.shedlock</groupId>
+            <artifactId>shedlock-provider-jdbc-template</artifactId>
+            <version>${shedlock-spring.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

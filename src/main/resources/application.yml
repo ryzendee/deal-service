@@ -15,8 +15,33 @@ spring:
     show-sql: true
   liquibase:
     enabled: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
 
 jwt:
   secret: qO8zR9Avpm1FLzXzo1kS9OytZ+QjzUpgGzkhEwo6hH4=
   issuer: fintech-application
   expiration: 3600000 # 1 час
+
+rabbit:
+  contractor:
+    queue: deals_contractor_queue
+    exchange: contractors_contractor_exchange
+    routing-key: deals_contractor_routing
+    dead:
+      queue: deals_contractor_dead_queue
+      exchange: deals_dead_exchange
+      routing-key: contractor.dead
+    retry:
+      exchange: deal_contractor_dead_exchange
+      routing-key: contractor.retry
+    dead-ttl: 300000
+
+inbox:
+  scheduler:
+    initial-delay-ms: 1000
+    fixed-delay-ms: 5000
+    batch-size: 50
