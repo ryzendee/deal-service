@@ -30,6 +30,7 @@
         <spring-security-jwt-starter.version>0.0.1-SNAPSHOT</spring-security-jwt-starter.version>
         <common.version>1.0-SNAPSHOT</common.version>
         <shedlock-spring.version>6.9.2</shedlock-spring.version>
+        <testcontainers-redis.version>2.2.2</testcontainers-redis.version>
     </properties>
     <dependencies>
         <dependency>
@@ -154,7 +155,20 @@
             <artifactId>shedlock-provider-jdbc-template</artifactId>
             <version>${shedlock-spring.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.redis</groupId>
+            <artifactId>testcontainers-redis</artifactId>
+            <version>${testcontainers-redis.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
