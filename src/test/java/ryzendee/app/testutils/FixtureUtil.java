@@ -6,6 +6,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import ryzendee.app.common.dto.ContractorUpdateEvent;
 import ryzendee.app.dto.*;
 import ryzendee.app.models.DealContractor;
+import ryzendee.app.models.DealStatus;
+import ryzendee.app.models.DealType;
 import ryzendee.app.util.exporter.ExportResult;
 import ryzendee.starter.jwt.auth.JwtAuthenticationToken;
 import ryzendee.starter.jwt.decoder.AuthRole;
@@ -21,6 +23,20 @@ import static java.util.Collections.emptyList;
 import static java.util.UUID.randomUUID;
 
 public class FixtureUtil {
+
+    public static DealStatus dealStatusFixture() {
+        return DealStatus.builder()
+                .id("deal-status-id")
+                .name("deal-status-name")
+                .build();
+    }
+
+    public static DealType dealTypeFixture() {
+        return DealType.builder()
+                .id("deal-type-id")
+                .name("deal-type-name")
+                .build();
+    }
 
     public static ContractorUpdateEvent contractorUpdateEventFixture() {
         return new ContractorUpdateEvent(
