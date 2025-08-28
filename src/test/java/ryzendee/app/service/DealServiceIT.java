@@ -3,6 +3,7 @@ package ryzendee.app.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
 import ryzendee.app.dto.DealDetails;
 import ryzendee.app.dto.DealSaveRequest;
 import ryzendee.app.dto.DealStatusChangeRequest;
@@ -11,16 +12,22 @@ import ryzendee.app.models.Deal;
 import ryzendee.app.models.DealStatus;
 import ryzendee.app.models.DealType;
 
+import java.util.List;
 import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static ryzendee.app.constants.CacheManagerNameConstants.DEAL_METADATA_CACHE_MANAGER;
+import static ryzendee.app.constants.CacheNameConstants.DEAL_CACHE;
+import static ryzendee.app.constants.CacheNameConstants.DEAL_STATUS_METADATA_CACHE;
 import static ryzendee.app.service.DealTestHelper.createAndSaveStatus;
 import static ryzendee.app.service.DealTestHelper.createAndSaveTestDeal;
-import static ryzendee.app.testutils.FixtureUtil.dealSaveRequestBuilderFixture;
+import static ryzendee.app.testutils.FixtureUtil.*;
 
 public class DealServiceIT extends AbstractServiceIT {
+
+    private static final String DEAL_STATUS_CACHE_KEY = "all";
 
     @Autowired
     private DealService dealService;
@@ -96,6 +103,53 @@ public class DealServiceIT extends AbstractServiceIT {
         UUID randomId = randomUUID();
         assertThatThrownBy(() -> dealService.getDealById(randomId))
                 .isInstanceOf(ResourceNotFoundException.class);
+    }
+
+    @Test
+    void changeDealStatus_withCachedStatus_shouldClearCacheAfterChanging() {
+        cacheUtil.putInCache(
+                DEAL_METADATA_CACHE_MANAGER,
+                DEAL_STATUS_METADATA_CACHE,
+                DEAL_STATUS_CACHE_KEY,
+                List.of(dealStatusFixture())
+        );
+        DealStatus newStatus = createAndSaveStatus(databaseUtil, "APPROVED");
+        DealStatusChangeRequest request = new DealStatusChangeRequest(existingDeal.getId(), newStatus.getId());
+
+        dealService.changeDealStatus(request);
+
+        Cache.ValueWrapper cachedValue =
+                cacheUtil.getFromCache(DEAL_METADATA_CACHE_MANAGER, DEAL_STATUS_METADATA_CACHE, DEAL_STATUS_CACHE_KEY);
+        assertThat(cachedValue).isNull();
+    }
+
+    @Test
+    void getDealById_cacheIsEmpty_shouldPutDealInCache() {
+        DealDetails details = dealService.getDealById(existingDeal.getId());
+
+        Cache.ValueWrapper cachedValue =
+                cacheUtil.getFromCache(DEAL_METADATA_CACHE_MANAGER, DEAL_CACHE, details.id().toString());
+        assertThat(cachedValue.get()).isInstanceOf(DealDetails.class);
+
+        DealDetails cachedDetails = (DealDetails) cachedValue.get();
+        assertThat(details).isEqualTo(cachedDetails);
+    }
+
+    @Test
+    void saveOrUpdate_withCachedDeal_shouldClearCache() {
+        DealDetails cachedDetails = DealDetails.builder()
+                .id(existingDeal.getId())
+                .build();
+        cacheUtil.putInCache(DEAL_METADATA_CACHE_MANAGER, DEAL_CACHE, cachedDetails.id().toString(), cachedDetails);
+        DealSaveRequest request = dealSaveRequestBuilderFixture()
+                .id(existingDeal.getId())
+                .build();
+
+        dealService.saveOrUpdate(request);
+
+        Cache.ValueWrapper cachedValue =
+                cacheUtil.getFromCache(DEAL_METADATA_CACHE_MANAGER, DEAL_STATUS_METADATA_CACHE, cachedDetails.id().toString());
+        assertThat(cachedValue).isNull();
     }
 
     private void assertDealEqualsRequest(Deal deal, DealSaveRequest request) {
