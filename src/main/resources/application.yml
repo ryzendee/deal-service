@@ -45,3 +45,9 @@ inbox:
     initial-delay-ms: 1000
     fixed-delay-ms: 5000
     batch-size: 50
+
+cache:
+  deals:
+    ttl: 1800s
+  deal_metadata:
+    ttl: 3600s

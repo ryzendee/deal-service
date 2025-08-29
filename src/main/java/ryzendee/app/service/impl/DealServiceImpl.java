@@ -1,6 +1,8 @@
 package ryzendee.app.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,14 +18,19 @@ import ryzendee.app.mapper.DealAppMapper;
 import ryzendee.app.models.Deal;
 import ryzendee.app.models.DealStatus;
 import ryzendee.app.repository.DealRepository;
-import ryzendee.app.util.specification.DealSpecificationBuilder;
 import ryzendee.app.repository.DealStatusRepository;
 import ryzendee.app.service.DealService;
 import ryzendee.app.util.exporter.DealDetailsExporter;
 import ryzendee.app.util.exporter.ExportResult;
+import ryzendee.app.util.specification.DealSpecificationBuilder;
 
 import java.math.BigDecimal;
 import java.util.UUID;
+
+import static ryzendee.app.constants.CacheManagerNameConstants.DEAL_CACHE_MANAGER;
+import static ryzendee.app.constants.CacheManagerNameConstants.DEAL_METADATA_CACHE_MANAGER;
+import static ryzendee.app.constants.CacheNameConstants.DEAL_CACHE;
+import static ryzendee.app.constants.CacheNameConstants.DEAL_STATUS_METADATA_CACHE;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +46,12 @@ public class DealServiceImpl implements DealService {
     private final DealDetailsExporter dealDetailsExporter;
 
     @Transactional
+    @CacheEvict(
+            value = DEAL_CACHE,
+            key = "#request.id",
+            condition = "#request.id != null",
+            cacheManager = DEAL_CACHE_MANAGER
+    )
     @Override
     public DealDetails saveOrUpdate(DealSaveRequest request) {
         Deal deal;
@@ -56,6 +69,7 @@ public class DealServiceImpl implements DealService {
     }
 
     @Transactional
+    @CacheEvict(value = DEAL_STATUS_METADATA_CACHE, key = "'all'", cacheManager = DEAL_METADATA_CACHE_MANAGER)
     @Override
     public void changeDealStatus(DealStatusChangeRequest request) {
         DealStatus status = dealStatusRepository.findById(request.statusId())
@@ -66,6 +80,7 @@ public class DealServiceImpl implements DealService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = DEAL_CACHE, key = "#id", cacheManager = DEAL_CACHE_MANAGER)
     @Override
     public DealDetails getDealById(UUID id) {
         Deal deal = dealRepository.findByIdWithGraph(id)
